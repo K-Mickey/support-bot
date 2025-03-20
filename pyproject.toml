@@ -1,0 +1,15 @@
+[project]
+name = "devman-support-bot"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.13"
+dependencies = [
+    "aiogram>=3.19.0",
+    "pydantic-settings>=2.8.1",
+]
+
+[dependency-groups]
+dev = [
+    "blue>=0.9.1",
+    "isort>=6.0.1",
+]
