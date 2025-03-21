@@ -4,8 +4,8 @@ import logging
 from aiogram import Bot, Dispatcher
 from aiogram.types import BotCommand
 
-from settings import settings
-from support_router import router as support_router
+from app.settings import settings
+from app.support_router import router as support_router
 
 
 class SupportBot:

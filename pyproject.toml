@@ -5,6 +5,7 @@ description = "Add your description here"
 requires-python = ">=3.13"
 dependencies = [
     "aiogram>=3.19.0",
+    "google-cloud-dialogflow>=2.41.1",
     "pydantic-settings>=2.8.1",
 ]
 
