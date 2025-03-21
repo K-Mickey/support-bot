@@ -14,9 +14,11 @@ class Settings(BaseSettings):
     log_format: str = '[%(asctime)s] [%(levelname)s] [%(name)s - %(filename)s] > %(lineno)d - %(message)s'
 
     class Config:
-        env_file = '.env'
+        env_file = 'src/.env'
         env_file_encoding = 'utf-8'
 
 
 settings = Settings()
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = settings.google_application_credentials
+os.environ[
+    'GOOGLE_APPLICATION_CREDENTIALS'
+] = settings.google_application_credentials
