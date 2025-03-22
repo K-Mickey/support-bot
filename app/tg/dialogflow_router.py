@@ -8,7 +8,7 @@ router = Router()
 
 
 @router.message()
-async def echo(message: Message):
+async def dialogflow(message: Message):
     answers = get_intent_answer(
         project_id=settings.project_id,
         session_id=str(message.from_user.id),

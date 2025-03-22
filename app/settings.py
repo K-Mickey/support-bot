@@ -4,8 +4,11 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
-    bot_token: str
-    user_id: str
+    tg_token: str
+    tg_user_id: str
+
+    vk_token: str
+
     project_id: str
     google_application_credentials: str
     language_code: str = 'ru-RU'
