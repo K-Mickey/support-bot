@@ -5,8 +5,6 @@ from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
     tg_token: str
-    tg_user_id: str
-
     vk_token: str
 
     project_id: str

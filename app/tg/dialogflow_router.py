@@ -9,10 +9,11 @@ router = Router()
 
 @router.message()
 async def dialogflow(message: Message):
+    texts = message.text.split('.')
     answers = get_intent_answer(
         project_id=settings.project_id,
         session_id=str(message.from_user.id),
-        texts=[message.text],
+        texts=texts,
         language_code=settings.language_code,
     )
     await message.answer('\n\n'.join(answers))
