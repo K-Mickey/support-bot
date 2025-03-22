@@ -2,7 +2,7 @@ import logging
 from typing import Iterable, MutableSequence
 
 from google.cloud import dialogflow
-from google.cloud.dialogflow_v2 import Intent
+from google.cloud.dialogflow_v2 import DetectIntentResponse, Intent
 from google.cloud.dialogflow_v2.services.intents.pagers import ListIntentsPager
 
 logger = logging.getLogger(__name__)
@@ -10,11 +10,11 @@ logger = logging.getLogger(__name__)
 
 def get_intent_answer(
     project_id: str, session_id: str, texts: Iterable[str], language_code: str
-) -> list[str]:
+) -> list[DetectIntentResponse]:
     session_client = dialogflow.SessionsClient()
     session = session_client.session_path(project_id, session_id)
 
-    answers = []
+    responses = []
     for text in texts:
         text_input = dialogflow.TextInput(
             text=text, language_code=language_code
@@ -37,8 +37,8 @@ def get_intent_answer(
                 response.query_result.fulfillment_text
             )
         )
-        answers.append(response.query_result.fulfillment_text)
-    return answers
+        responses.append(response)
+    return responses
 
 
 def create_intent(
