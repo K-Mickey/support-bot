@@ -3,9 +3,9 @@ import logging
 from vkbottle import Bot
 from vkbottle.bot import Message
 
-from app.dialogflow import get_intent_answer
-from app.settings import settings
-from app.utils import split_message
+from bin.dialogflow import get_intent_answer
+from bin.settings import settings
+from bin.utils import split_message
 
 logger = logging.getLogger(__name__)
 

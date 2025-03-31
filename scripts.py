@@ -2,8 +2,8 @@ import json
 import logging
 from pathlib import Path
 
-from app.dialogflow import create_intent, delete_intent, list_intents
-from app.settings import settings
+from bin.dialogflow import create_intent, delete_intent, list_intents
+from bin.settings import settings
 
 logger = logging.getLogger(__name__)
 
