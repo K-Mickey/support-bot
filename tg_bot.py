@@ -5,6 +5,7 @@ from aiogram import Bot, Dispatcher
 from aiogram.types import BotCommand, Message
 
 from bin.dialogflow import get_intent_answer
+from bin.log_handler import setup_tg_logger
 from bin.settings import settings
 from bin.utils import split_message
 
@@ -24,11 +25,11 @@ class SupportBot:
             )
 
             dp = Dispatcher()
-            dp.message.register(self.dialogflow)
+            dp.message.register(self._dialogflow)
             await dp.start_polling(bot)
 
     @staticmethod
-    async def dialogflow(message: Message):
+    async def _dialogflow(message: Message):
         logger.debug(f'Got message: {message}')
         texts = split_message(message.text)
         logger.debug(f'After split: {texts}')
@@ -52,8 +53,15 @@ class SupportBot:
 
 if __name__ == '__main__':
     logging.basicConfig(level=settings.log_level, format=settings.log_format)
-    asyncio.run(
-        SupportBot(
-            bot_token=settings.tg_token,
-        ).run()
-    )
+    setup_tg_logger(settings.log_bot_token, settings.admin_id)
+
+    while True:
+        try:
+            asyncio.run(
+                SupportBot(
+                    bot_token=settings.tg_token,
+                ).run()
+            )
+        except Exception as e:
+            logging.critical(e, exc_info=True)
+            asyncio.run(asyncio.sleep(settings.restart_delay))

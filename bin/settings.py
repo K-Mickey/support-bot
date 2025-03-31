@@ -6,6 +6,8 @@ from pydantic_settings import BaseSettings
 class Settings(BaseSettings):
     tg_token: str
     vk_token: str
+    log_bot_token: str
+    admin_id: str
 
     project_id: str
     google_application_credentials: str
@@ -13,6 +15,7 @@ class Settings(BaseSettings):
 
     log_level: str = 'INFO'
     log_format: str = '[%(asctime)s] [%(levelname)s] [%(name)s - %(filename)s] > %(lineno)d - %(message)s'
+    restart_delay: int = 120
 
     class Config:
         env_file = 'src/.env'
