@@ -1,9 +1,11 @@
+import asyncio
 import logging
 
 from vkbottle import Bot
 from vkbottle.bot import Message
 
 from bin.dialogflow import get_intent_answer
+from bin.log_handler import setup_tg_logger
 from bin.settings import settings
 from bin.utils import split_message
 
@@ -43,4 +45,11 @@ async def send_echo_with_dialogflow(message: Message):
 
 if __name__ == '__main__':
     logging.basicConfig(level=settings.log_level, format=settings.log_format)
-    run_bot(settings.vk_token)
+    setup_tg_logger(settings.log_bot_token, settings.admin_id)
+
+    while True:
+        try:
+            run_bot(settings.vk_token)
+        except Exception as e:
+            logging.critical(e, exc_info=True)
+            asyncio.run(asyncio.sleep(settings.restart_delay))
