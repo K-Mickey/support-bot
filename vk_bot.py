@@ -1,17 +1,22 @@
 import logging
 
-from vkbottle.bot import BotLabeler, Message
+from vkbottle import Bot
+from vkbottle.bot import Message
 
 from app.dialogflow import get_intent_answer
 from app.settings import settings
 from app.utils import split_message
 
-bl = BotLabeler()
 logger = logging.getLogger(__name__)
 
 
-@bl.message()
-async def dialogflow(message: Message):
+def run_bot(token: str):
+    vk_bot = Bot(token=token)
+    vk_bot.on.message()(send_echo_with_dialogflow)
+    vk_bot.run_forever()
+
+
+async def send_echo_with_dialogflow(message: Message):
     logger.debug(f'Got message: {message}')
     texts = split_message(message.text)
     logger.debug(f'After split: {texts}')
@@ -34,3 +39,8 @@ async def dialogflow(message: Message):
     if answers:
         logger.info(f'Answers: {answers}')
         await message.answer('\n\n'.join(answers))
+
+
+if __name__ == '__main__':
+    logging.basicConfig(level=settings.log_level, format=settings.log_format)
+    run_bot(settings.vk_token)
