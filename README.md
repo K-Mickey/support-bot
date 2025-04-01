@@ -26,7 +26,7 @@ pip install -r requirements.txt
 ```
 
 ### Создать файл .env
-Создайте файл .env в директории проекта и заполните его обязательными данными:
+Создайте файл .env в папке `src/` и заполните его обязательными данными:
 - **TG_TOKEN** - токен бота поддержки Telegram. Создать через [@BotFather](https://t.me/BotFather)
 - **VK_TOKEN** - токен бота поддержки VK. Взять в настройках своей группы
 - **PROJECT_ID** - айди проекта в Google Cloud. Узнать в [консоли](https://console.cloud.google.com/)
