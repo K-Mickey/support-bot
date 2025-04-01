@@ -1,0 +1,4 @@
+aiogram==3.19.0
+google-cloud-dialogflow==2.41.1
+pydantic-settings==2.8.1
+vkbottle==4.4.5
