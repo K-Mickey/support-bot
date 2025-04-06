@@ -2,15 +2,13 @@ import json
 import logging
 from pathlib import Path
 
-from bin.dialogflow import create_intent, delete_intent, list_intents
+from bin.dialogflow import create_intent, delete_intent, get_intents
 from bin.settings import settings
 
 logger = logging.getLogger(__name__)
 
 
-def training_dialogflow(
-    file_path: Path, project_id: str, update: bool = False
-) -> None:
+def train(file_path: Path, project_id: str, update: bool = False) -> None:
     if not file_path.exists():
         raise FileNotFoundError(f'Файл {file_path} не найден')
 
@@ -18,7 +16,7 @@ def training_dialogflow(
     intents = json.loads(file)
 
     if update:
-        exist_intents = list_intents(project_id)
+        exist_intents = get_intents(project_id)
         for intent in exist_intents:
             if intent.display_name in intents:
                 delete_intent(project_id, intent.name)
@@ -35,7 +33,7 @@ def training_dialogflow(
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
-    training_dialogflow(
+    train(
         file_path=Path('src/questions-example.json'),
         project_id=settings.project_id,
         update=True,

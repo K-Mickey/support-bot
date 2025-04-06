@@ -74,7 +74,7 @@ def create_intent(
     return response
 
 
-def list_intents(project_id: str) -> ListIntentsPager:
+def get_intents(project_id: str) -> ListIntentsPager:
     intents_client = dialogflow.IntentsClient()
     parent = dialogflow.AgentsClient.agent_path(project_id)
     intents = intents_client.list_intents(request={'parent': parent})
