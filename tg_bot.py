@@ -12,43 +12,39 @@ from bin.utils import split_message
 logger = logging.getLogger(__name__)
 
 
-class SupportBot:
-    def __init__(self, bot_token: str):
-        self.bot_token = bot_token
-
-    async def run(self):
-        async with Bot(token=self.bot_token).context() as bot:
-            await bot.set_my_commands(
-                commands=[
-                    BotCommand(command='start', description='Запустить бота'),
-                ]
-            )
-
-            dp = Dispatcher()
-            dp.message.register(self._dialogflow)
-            await dp.start_polling(bot)
-
-    @staticmethod
-    async def _dialogflow(message: Message):
-        logger.debug(f'Got message: {message}')
-        texts = split_message(message.text)
-        logger.debug(f'After split: {texts}')
-        if not texts:
-            return
-
-        responses = get_intent_answer(
-            project_id=settings.project_id,
-            session_id=f'tg-{message.from_user.id}',
-            texts=texts,
-            language_code=settings.language_code,
+async def run_bot(bot_token: str):
+    async with Bot(token=bot_token).context() as bot:
+        await bot.set_my_commands(
+            commands=[
+                BotCommand(command='start', description='Запустить бота'),
+            ]
         )
 
-        logger.debug(f'Got responses: {responses}')
-        answers = [
-            response.query_result.fulfillment_text for response in responses
-        ]
-        logger.info(f'Answers: {answers}')
-        await message.answer('\n\n'.join(answers))
+        dp = Dispatcher()
+        dp.message.register(handler_dialogflow)
+        await dp.start_polling(bot)
+
+
+async def handler_dialogflow(message: Message):
+    logger.debug(f'Got message: {message}')
+    texts = split_message(message.text)
+    logger.debug(f'After split: {texts}')
+    if not texts:
+        return
+
+    responses = get_intent_answer(
+        project_id=settings.project_id,
+        session_id=f'tg-{message.from_user.id}',
+        texts=texts,
+        language_code=settings.language_code,
+    )
+
+    logger.debug(f'Got responses: {responses}')
+    answers = [
+        response.query_result.fulfillment_text for response in responses
+    ]
+    logger.info(f'Answers: {answers}')
+    await message.answer('\n\n'.join(answers))
 
 
 if __name__ == '__main__':
@@ -57,11 +53,7 @@ if __name__ == '__main__':
 
     while True:
         try:
-            asyncio.run(
-                SupportBot(
-                    bot_token=settings.tg_token,
-                ).run()
-            )
+            asyncio.run(run_bot(bot_token=settings.tg_token))
         except Exception as e:
             logging.exception(e, exc_info=True)
             asyncio.run(asyncio.sleep(settings.restart_delay))
