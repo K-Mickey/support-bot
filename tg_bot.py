@@ -38,7 +38,7 @@ class SupportBot:
 
         responses = get_intent_answer(
             project_id=settings.project_id,
-            session_id=str(message.from_user.id),
+            session_id=f'tg-{message.from_user.id}',
             texts=texts,
             language_code=settings.language_code,
         )

@@ -27,7 +27,7 @@ async def send_echo_with_dialogflow(message: Message):
 
     responses = get_intent_answer(
         project_id=settings.project_id,
-        session_id=str(message.from_id),
+        session_id=f'vk-{message.from_id}',
         texts=texts,
         language_code=settings.language_code,
     )
