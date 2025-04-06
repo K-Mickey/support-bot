@@ -51,5 +51,5 @@ if __name__ == '__main__':
         try:
             run_bot(settings.vk_token)
         except Exception as e:
-            logging.critical(e, exc_info=True)
+            logging.exception(e, exc_info=True)
             asyncio.run(asyncio.sleep(settings.restart_delay))
