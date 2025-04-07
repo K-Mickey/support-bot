@@ -9,6 +9,8 @@ logger = logging.getLogger(__name__)
 
 
 def main(file_path: Path, project_id: str, update: bool = False) -> None:
+    logging.basicConfig(level=logging.INFO)
+
     if not file_path.exists():
         raise FileNotFoundError(f'Файл {file_path} не найден')
 
@@ -32,7 +34,6 @@ def main(file_path: Path, project_id: str, update: bool = False) -> None:
 
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
     main(
         file_path=Path('src/questions-example.json'),
         project_id=settings.project_id,
